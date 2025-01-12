@@ -167,12 +167,6 @@ export default function EditProfile() {
     },
   });
 
-  const profileImage = watch("profile_image");
-
-  function isFile(obj: File) {
-    return obj instanceof File;
-  }
-
   // Function to handle form submission
   const onSubmit = async (data: any) => {
     try {
@@ -401,7 +395,7 @@ export default function EditProfile() {
                       <input
                         type="file"
                         hidden
-                        accept="image/*"
+                        accept="image/png, image/jpeg"
                         onChange={handleFileChange}
                       />
                       {image ? (

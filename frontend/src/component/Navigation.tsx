@@ -59,9 +59,21 @@ export default function Navigation() {
   return (
     <AppBar
       color="transparent"
-      sx={{ height: "50px", boxShadow: "none", padding: "10px" }}
+      sx={{
+        height: "50px",
+        boxShadow: "none",
+        padding: "10px",
+      }}
     >
-      <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
+      <Toolbar
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          background: "rgba(255,255,255,0.6)",
+          borderRadius: "15px",
+          boxShadow: "0px 0px 20px -10px rgba(0,0,0,.2)",
+        }}
+      >
         <Link href="/home">
           <img className="main-logo" src={logo} alt="Main Logo" />
         </Link>
