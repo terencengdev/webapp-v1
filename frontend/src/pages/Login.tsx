@@ -33,7 +33,6 @@ theme.typography.h1 = {
 };
 
 export default function Login() {
-  const [loading, setLoading] = useState(false);
   const [alert, setAlert] = useState(false);
   const [error_alert, setErrorAlert] = useState(false);
   const [alertContent, setAlertContent] = useState("");
@@ -67,12 +66,12 @@ export default function Login() {
       user_id = data.user_id;
       password = data.password;
       // Send login request to server
-      setLoading(true);
+
       const response = await axios.post(apiUrl + "/api/login", {
         user_id,
         password,
       });
-      setLoading(false);
+
       // If register successful, redirect to MainPage
       if (response.status === 200) {
         setErrorAlert(false);

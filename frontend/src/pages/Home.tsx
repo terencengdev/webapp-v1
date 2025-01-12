@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 
 import Navigation from "../component/Navigation";
-
 import Container from "@mui/material/Container";
 import InputLabel from "@mui/material/InputLabel";
 import Box from "@mui/material/Box";
@@ -65,16 +63,6 @@ export default function Home() {
     { code: "UA", label: "Ukraine" },
     { code: "US", label: "United States" },
   ];
-
-  const navigate = useNavigate();
-
-  // useEffect(() => {
-  //   // Check if user is already logged in
-  //   const token = localStorage.getItem("token");
-  //   if (!token) {
-  //     navigate("/login"); // Redirect to homepage
-  //   }
-  // }, [navigate]);
 
   useEffect(() => {
     axios

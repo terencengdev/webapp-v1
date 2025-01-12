@@ -142,7 +142,7 @@ export default function EditProfile() {
     );
   }
 
-  const { control, handleSubmit, watch, setValue } = useForm({
+  const { control, handleSubmit, setValue } = useForm({
     defaultValues: {
       profile_image: {},
       salutation: "",
@@ -222,7 +222,7 @@ export default function EditProfile() {
     }
   };
 
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+  const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
     setTabIndex(newValue);
   };
 
