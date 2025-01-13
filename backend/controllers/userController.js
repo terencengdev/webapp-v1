@@ -29,11 +29,9 @@ const createUser = (req, res) => {
 
 const createUserProfile = (id) => {
   const query =
-    "INSERT INTO webapp_user_profile (profile_image,salutation,first_name,last_name,email_address,mobile_number,home_address,country,postal_code,nationality,date_of_birth,gender,marital_status,hobbies_and_interests,favourite_sports,preferred_music_genres,preferred_movies_shows,spouse_salutation,spouse_first_name,spouse_last_name,user) VALUES ('', '','','','','','','','','','1000-01-01','','','','','','','','','',?)";
+    "INSERT INTO webapp_user_profile (profile_image,salutation,first_name,last_name,email_address,mobile_number,home_address,country,postal_code,nationality,date_of_birth,gender,marital_status,hobbies_and_interests,favourite_sports,preferred_music_genres,preferred_movies_shows,spouse_salutation,spouse_first_name,spouse_last_name,user) VALUES ('', '','','','','','','','','','1900-01-01','','','','','','','','','',?)";
   db.query(query, [id], (err, results) => {
     if (err) throw err;
-    console.log(results);
-    // res.json({ name, email, phone });
   });
 };
 
@@ -43,7 +41,7 @@ const updateUser = (req, res) => {
   const date_of_birth = req.body.date_of_birth;
 
   const profile_image = req.file ? req.file.filename : req.body.profile_image;
-
+  console.log(req.file);
   const {
     salutation,
     first_name,
