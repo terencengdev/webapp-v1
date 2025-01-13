@@ -177,6 +177,8 @@ export default function EditProfile() {
       // Send login request to server
       const formData = new FormData();
 
+      console.log(data);
+
       formData.append("salutation", data.salutation);
       formData.append("first_name", data.first_name);
       formData.append("last_name", data.last_name);
