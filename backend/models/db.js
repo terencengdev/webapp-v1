@@ -1,11 +1,22 @@
 const mysql = require("mysql");
+let hostname = "217.21.85.1";
+let database = "tere4902_webapp";
+let username = "tere4902_admin";
+let password = "FZ8&#_]7KWf@";
+
+if (process.env.NODE_ENV == "development") {
+  hostname = "localhost";
+  database = "webapp-v1";
+  username = "root";
+  password = "";
+}
 
 const db = mysql.createPool({
-  connectionLimit: 10, // Adjust as needed
-  host: "217.21.85.1",
-  database: "tere4902_webapp",
-  user: "tere4902_admin",
-  password: "FZ8&#_]7KWf@",
+  // connectionLimit: 10, // Adjust as needed
+  host: hostname,
+  database: database,
+  user: username,
+  password: password,
   port: 3306,
 });
 
