@@ -141,6 +141,7 @@ const loginUser = (req, res) => {
   const sql = "SELECT * FROM webapp_user WHERE user_id = ? AND password = ?";
   db.query(sql, [user_id, password], (err, result) => {
     if (err) {
+      console.log(result);
       res
         .status(500)
         .json({ message: "An error occurred while processing your request." });
