@@ -7,6 +7,14 @@ const bodyParser = require("body-parser");
 
 const app = express();
 
+app.use(express.json());
+app.use(cors());
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use("/api", userRoutes);
+
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 // Serve the static files from the React app
 app.use(express.static(path.join(__dirname, "../frontend/dist")));
 
@@ -14,15 +22,6 @@ app.use(express.static(path.join(__dirname, "../frontend/dist")));
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "../frontend/dist", "index.html"));
 });
-
-app.use(express.json());
-app.use(cors());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use("/api", userRoutes);
-
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
-
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

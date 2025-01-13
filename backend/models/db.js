@@ -12,7 +12,7 @@ if (process.env.NODE_ENV == "development") {
 }
 
 const db = mysql.createPool({
-  // connectionLimit: 10, // Adjust as needed
+  connectionLimit: 10, // Adjust as needed
   host: hostname,
   database: database,
   user: username,

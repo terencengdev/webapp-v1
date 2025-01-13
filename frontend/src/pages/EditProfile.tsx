@@ -57,6 +57,7 @@ export default function EditProfile() {
     axios
       .get(apiUrl + "/api/users/" + userid) // Replace 1 with dynamic user ID
       .then((res) => {
+        console.log(res);
         setImage(res.data.profile_image);
         setValue("salutation", res.data.salutation);
         setValue("first_name", res.data.first_name);
