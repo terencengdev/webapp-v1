@@ -139,8 +139,9 @@ const loginUser = (req, res) => {
   const { user_id, password } = req.body;
 
   const sql = "SELECT * FROM webapp_user WHERE user_id = ? AND password = ?";
-  console.log(err);
+
   db.query(sql, [user_id, password], (err, result) => {
+    console.log(err);
     if (err) {
       res
         .status(500)
