@@ -975,30 +975,30 @@ export default function EditProfile() {
                     Cancel
                   </Button>
                 </Box>
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: { xs: "0", md: "20px" },
+                    flexDirection: { xs: "column", md: "row" },
+                    padding: "24px",
+                  }}
+                >
+                  <Box
+                    className="left-col image-col"
+                    sx={{ flex: { xs: "0", md: "0 0 25%" } }}
+                  ></Box>
+                  <Box
+                    className="right-col"
+                    sx={{ flex: { xs: "0 0 100%", md: "0 0 65%" } }}
+                  >
+                    <Typography variant="body2">
+                      <em>* Mandatory field</em>
+                    </Typography>
+                  </Box>
+                </Box>
               </form>
             )}
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                gap: { xs: "0", md: "20px" },
-                flexDirection: { xs: "column", md: "row" },
-                padding: "24px",
-              }}
-            >
-              <Box
-                className="left-col image-col"
-                sx={{ flex: { xs: "0", md: "0 0 25%" } }}
-              ></Box>
-              <Box
-                className="right-col"
-                sx={{ flex: { xs: "0 0 100%", md: "0 0 65%" } }}
-              >
-                <Typography variant="body2">
-                  <em>* Mandatory field</em>
-                </Typography>
-              </Box>
-            </Box>
 
             {alert || error_alert ? (
               <Box
