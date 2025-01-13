@@ -98,7 +98,8 @@ export default function EditProfile() {
     });
 
     let all_valid = required.every((element) => element != "");
-
+    console.log(required);
+    console.log(all_valid);
     return (
       <Button
         type="submit"
