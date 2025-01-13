@@ -41,7 +41,7 @@ const updateUser = (req, res) => {
   const date_of_birth = req.body.date_of_birth;
 
   const profile_image = req.file ? req.file.filename : req.body.profile_image;
-  console.log(req.file);
+  console.log(req);
   const {
     salutation,
     first_name,
