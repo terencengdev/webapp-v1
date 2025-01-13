@@ -40,8 +40,11 @@ const updateUser = (req, res) => {
   const userId = req.params.id;
   const date_of_birth = req.body.date_of_birth;
 
-  const profile_image = req.file ? req.file.filename : req.body.profile_image;
-  console.log(req);
+  const profile_image = req.file ? req.file.path : req.body.profile_image;
+  if (!req.file) {
+    // No file was uploaded
+    return res.status(400).json({ error: "No file uploaded" });
+  }
   const {
     salutation,
     first_name,

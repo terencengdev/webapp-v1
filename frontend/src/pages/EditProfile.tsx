@@ -369,13 +369,7 @@ export default function EditProfile() {
                   >
                     <Avatar
                       alt="Profile Image"
-                      src={
-                        previewImage
-                          ? previewImage
-                          : image
-                          ? `http://localhost:3000/uploads/${image}`
-                          : ""
-                      }
+                      src={previewImage ? previewImage : image ? image : ""}
                       sx={{
                         width: {
                           xs: "20vw",
