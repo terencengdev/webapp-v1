@@ -2,10 +2,10 @@ const mysql = require("mysql");
 
 const db = mysql.createPool({
   connectionLimit: 10, // Adjust as needed
-  host: "localhost",
-  user: "root",
-  password: "",
-  database: "webapp-v1",
+  host: "https://terenceng.dev",
+  database: "tere4902_webapp",
+  user: "tere4902_admin",
+  password: "FZ8&#_]7KWf@",
   port: 3306,
 });
 
