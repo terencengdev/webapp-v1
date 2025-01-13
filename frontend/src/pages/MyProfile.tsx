@@ -11,6 +11,7 @@ import Navigation from "../component/Navigation";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import EditIcon from "@mui/icons-material/Edit";
+import CircularProgress from "@mui/material/CircularProgress";
 
 import Avatar from "@mui/material/Avatar";
 
@@ -32,6 +33,7 @@ theme.typography.h3 = {
 export default function MyProfile() {
   const [tabindex, setTabIndex] = React.useState(0);
   const [image, setImage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const [formData, setFormData] = useState({
     salutation: "",
@@ -59,12 +61,15 @@ export default function MyProfile() {
   const apiUrl = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
+    setLoading(true);
     // Fetch user data for editing (if applicable)
     axios
       .get(apiUrl + "/api/users/" + userid) // Replace 1 with dynamic user ID
       .then((res) => {
+        console.log(res);
         setImage(res.data.profile_image);
         setFormData(res.data);
+        setLoading(false);
       })
       .catch((err) => console.error(err));
   }, []);
@@ -189,385 +194,408 @@ export default function MyProfile() {
                 My <strong>Profile</strong>
               </Box>
             </Typography>
-            <TabPanel tabindex={tabindex} index={0}>
+            {loading ? (
               <Box
-                className="field-wrap"
+                className="loading-box"
                 sx={{
                   display: "flex",
-                  flexDirection: "row",
-                  alignItems: "flex-start",
-                  gap: "20px",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  minHeight: "50vh",
                 }}
               >
-                <Box className="left-col image-col" sx={{ flex: "0 0 25%" }}>
-                  <Avatar
-                    alt="Profile image"
-                    src={image ? `http://localhost:3000/uploads/${image}` : ""}
-                    sx={{
-                      width: {
-                        xs: "20vw",
-                        md: "calc(14vw - 20px)",
-                      },
-                      height: {
-                        xs: "20vw",
-                        md: "calc(14vw - 20px)",
-                      },
-                    }}
-                  />
-                </Box>
-                <Box className="right-col" sx={{ flex: "0 0 75%" }}>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      marginBottom: "20px",
-                    }}
-                  >
-                    <Typography
-                      sx={{ flex: "0 0 100%" }}
-                      className="form-label"
-                    >
-                      <strong>Salutation*</strong>
-                    </Typography>
-                    <Box className="value">{formData.salutation}</Box>
-                  </Box>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      marginBottom: "20px",
-                    }}
-                  >
-                    <Typography
-                      sx={{ flex: "0 0 100%" }}
-                      className="form-label"
-                    >
-                      First name*
-                    </Typography>
-
-                    <Box className="value">{formData.first_name}</Box>
-                  </Box>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      marginBottom: "20px",
-                    }}
-                  >
-                    <Typography
-                      sx={{ flex: "0 0 100%" }}
-                      className="form-label"
-                    >
-                      Last Name *
-                    </Typography>
-                    <Box className="value">{formData.last_name}</Box>
-                  </Box>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      marginBottom: "20px",
-                    }}
-                  >
-                    <Typography
-                      sx={{ flex: "0 0 100%" }}
-                      className="form-label"
-                    >
-                      Email Address *
-                    </Typography>
-                    <Box className="value">{formData.email_address}</Box>
-                  </Box>
-                </Box>
+                <CircularProgress color="inherit" />
               </Box>
-            </TabPanel>
-            <TabPanel tabindex={tabindex} index={1}>
-              <Box
-                className="field-wrap"
-                sx={{
-                  display: "flex",
-                  flexDirection: "row",
-                  alignItems: "flex-start",
-                  gap: "30px",
-                }}
-              >
-                <Box
-                  className="left-col image-col"
-                  sx={{ flex: "0 0 25%" }}
-                ></Box>
-                <Box className="right-col" sx={{ flex: "0 0 100%" }}>
+            ) : (
+              <Box className="tab-panel-wrap">
+                <TabPanel tabindex={tabindex} index={0}>
                   <Box
+                    className="field-wrap"
                     sx={{
                       display: "flex",
-                      alignItems: "center",
-                      marginBottom: "20px",
+                      flexDirection: "row",
+                      alignItems: "flex-start",
+                      gap: "20px",
                     }}
                   >
-                    <Typography
-                      sx={{ flex: "0 0 100%" }}
-                      className="form-label"
+                    <Box
+                      className="left-col image-col"
+                      sx={{ flex: "0 0 25%" }}
                     >
-                      Mobile number*
-                    </Typography>
-                    <Box className="value">{formData.mobile_number}</Box>
-                  </Box>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      marginBottom: "20px",
-                    }}
-                  >
-                    <Typography
-                      sx={{ flex: "0 0 100%" }}
-                      className="form-label"
-                    >
-                      Home address*
-                    </Typography>
+                      <Avatar
+                        alt="Profile image"
+                        src={image ? image : ""}
+                        sx={{
+                          width: {
+                            xs: "20vw",
+                            md: "calc(14vw - 20px)",
+                          },
+                          height: {
+                            xs: "20vw",
+                            md: "calc(14vw - 20px)",
+                          },
+                        }}
+                      />
+                    </Box>
+                    <Box className="right-col" sx={{ flex: "0 0 75%" }}>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          marginBottom: "20px",
+                        }}
+                      >
+                        <Typography
+                          sx={{ flex: "0 0 100%" }}
+                          className="form-label"
+                        >
+                          <strong>Salutation*</strong>
+                        </Typography>
+                        <Box className="value">{formData.salutation}</Box>
+                      </Box>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          marginBottom: "20px",
+                        }}
+                      >
+                        <Typography
+                          sx={{ flex: "0 0 100%" }}
+                          className="form-label"
+                        >
+                          First name*
+                        </Typography>
 
-                    <Box className="value">{formData.home_address}</Box>
-                  </Box>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      marginBottom: "20px",
-                    }}
-                  >
-                    <Typography
-                      sx={{ flex: "0 0 100%" }}
-                      className="form-label"
-                    >
-                      Country*
-                    </Typography>
-                    <Box className="value">{formData.country}</Box>
-                  </Box>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      marginBottom: "20px",
-                    }}
-                  >
-                    <Typography
-                      sx={{ flex: "0 0 100%" }}
-                      className="form-label"
-                    >
-                      Postal code*
-                    </Typography>
-                    <Box className="value">{formData.postal_code}</Box>
-                  </Box>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      marginBottom: "20px",
-                    }}
-                  >
-                    <Typography
-                      sx={{ flex: "0 0 100%" }}
-                      className="form-label"
-                    >
-                      Nationality*
-                    </Typography>
-                    <Box className="value">{formData.nationality}</Box>
-                  </Box>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      marginBottom: "20px",
-                    }}
-                  >
-                    <Typography
-                      sx={{ flex: "0 0 100%" }}
-                      className="form-label"
-                    >
-                      Date of birth
-                    </Typography>
-                    <Box className="value">{formData.date_of_birth}</Box>
-                  </Box>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      marginBottom: "20px",
-                    }}
-                  >
-                    <Typography
-                      sx={{ flex: "0 0 100%" }}
-                      className="form-label"
-                    >
-                      Gender
-                    </Typography>
-                    <Box className="value">{formData.gender}</Box>
-                  </Box>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      marginBottom: "20px",
-                    }}
-                  >
-                    <Typography
-                      sx={{ flex: "0 0 100%" }}
-                      className="form-label"
-                    >
-                      Marital status
-                    </Typography>
-                    <Box className="value">{formData.marital_status}</Box>
-                  </Box>
-                </Box>
-              </Box>
-            </TabPanel>
-            <TabPanel tabindex={tabindex} index={2}>
-              <Box
-                className="field-wrap"
-                sx={{
-                  display: "flex",
-                  flexDirection: "row",
-                  alignItems: "flex-start",
-                  gap: "20px",
-                }}
-              >
-                <Box
-                  className="left-col image-col"
-                  sx={{ flex: "0 0 25%" }}
-                ></Box>
-                <Box className="right-col" sx={{ flex: "0 0 75%" }}>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      marginBottom: "20px",
-                    }}
-                  >
-                    <Typography
-                      sx={{ flex: "0 0 100%" }}
-                      className="form-label"
-                    >
-                      Salutation*
-                    </Typography>
-                    <Box className="value">{formData.spouse_salutation}</Box>
-                  </Box>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      marginBottom: "20px",
-                    }}
-                  >
-                    <Typography
-                      sx={{ flex: "0 0 100%" }}
-                      className="form-label"
-                    >
-                      First name*
-                    </Typography>
-
-                    <Box className="value">{formData.spouse_first_name}</Box>
-                  </Box>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      marginBottom: "20px",
-                    }}
-                  >
-                    <Typography
-                      sx={{ flex: "0 0 100%" }}
-                      className="form-label"
-                    >
-                      Last Name *
-                    </Typography>
-                    <Box className="value">{formData.spouse_last_name}</Box>
-                  </Box>
-                </Box>
-              </Box>
-            </TabPanel>
-            <TabPanel tabindex={tabindex} index={3}>
-              <Box
-                className="field-wrap"
-                sx={{
-                  display: "flex",
-                  flexDirection: "row",
-                  alignItems: "flex-start",
-                  gap: "20px",
-                }}
-              >
-                <Box
-                  className="left-col image-col"
-                  sx={{ flex: "0 0 25%" }}
-                ></Box>
-                <Box className="right-col" sx={{ flex: "0 0 75%" }}>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      marginBottom: "20px",
-                    }}
-                  >
-                    <Typography
-                      sx={{ flex: "0 0 100%" }}
-                      className="form-label"
-                    >
-                      Hobbies and interests
-                    </Typography>
-                    <Box className="value">
-                      {formData.hobbies_and_interests}
+                        <Box className="value">{formData.first_name}</Box>
+                      </Box>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          marginBottom: "20px",
+                        }}
+                      >
+                        <Typography
+                          sx={{ flex: "0 0 100%" }}
+                          className="form-label"
+                        >
+                          Last Name *
+                        </Typography>
+                        <Box className="value">{formData.last_name}</Box>
+                      </Box>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          marginBottom: "20px",
+                        }}
+                      >
+                        <Typography
+                          sx={{ flex: "0 0 100%" }}
+                          className="form-label"
+                        >
+                          Email Address *
+                        </Typography>
+                        <Box className="value">{formData.email_address}</Box>
+                      </Box>
                     </Box>
                   </Box>
+                </TabPanel>
+                <TabPanel tabindex={tabindex} index={1}>
                   <Box
+                    className="field-wrap"
                     sx={{
                       display: "flex",
-                      alignItems: "center",
-                      marginBottom: "20px",
+                      flexDirection: "row",
+                      alignItems: "flex-start",
+                      gap: "30px",
                     }}
                   >
-                    <Typography
-                      sx={{ flex: "0 0 100%" }}
-                      className="form-label"
-                    >
-                      Favourite sport(s)
-                    </Typography>
+                    <Box
+                      className="left-col image-col"
+                      sx={{ flex: "0 0 25%" }}
+                    ></Box>
+                    <Box className="right-col" sx={{ flex: "0 0 100%" }}>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          marginBottom: "20px",
+                        }}
+                      >
+                        <Typography
+                          sx={{ flex: "0 0 100%" }}
+                          className="form-label"
+                        >
+                          Mobile number*
+                        </Typography>
+                        <Box className="value">{formData.mobile_number}</Box>
+                      </Box>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          marginBottom: "20px",
+                        }}
+                      >
+                        <Typography
+                          sx={{ flex: "0 0 100%" }}
+                          className="form-label"
+                        >
+                          Home address*
+                        </Typography>
 
-                    <Box className="value">{formData.favourite_sports}</Box>
-                  </Box>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      marginBottom: "20px",
-                    }}
-                  >
-                    <Typography
-                      sx={{ flex: "0 0 100%" }}
-                      className="form-label"
-                    >
-                      Preferred music genre(s)
-                    </Typography>
-                    <Box className="value">
-                      {formData.preferred_music_genres}
+                        <Box className="value">{formData.home_address}</Box>
+                      </Box>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          marginBottom: "20px",
+                        }}
+                      >
+                        <Typography
+                          sx={{ flex: "0 0 100%" }}
+                          className="form-label"
+                        >
+                          Country*
+                        </Typography>
+                        <Box className="value">{formData.country}</Box>
+                      </Box>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          marginBottom: "20px",
+                        }}
+                      >
+                        <Typography
+                          sx={{ flex: "0 0 100%" }}
+                          className="form-label"
+                        >
+                          Postal code*
+                        </Typography>
+                        <Box className="value">{formData.postal_code}</Box>
+                      </Box>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          marginBottom: "20px",
+                        }}
+                      >
+                        <Typography
+                          sx={{ flex: "0 0 100%" }}
+                          className="form-label"
+                        >
+                          Nationality*
+                        </Typography>
+                        <Box className="value">{formData.nationality}</Box>
+                      </Box>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          marginBottom: "20px",
+                        }}
+                      >
+                        <Typography
+                          sx={{ flex: "0 0 100%" }}
+                          className="form-label"
+                        >
+                          Date of birth
+                        </Typography>
+                        <Box className="value">{formData.date_of_birth}</Box>
+                      </Box>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          marginBottom: "20px",
+                        }}
+                      >
+                        <Typography
+                          sx={{ flex: "0 0 100%" }}
+                          className="form-label"
+                        >
+                          Gender
+                        </Typography>
+                        <Box className="value">{formData.gender}</Box>
+                      </Box>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          marginBottom: "20px",
+                        }}
+                      >
+                        <Typography
+                          sx={{ flex: "0 0 100%" }}
+                          className="form-label"
+                        >
+                          Marital status
+                        </Typography>
+                        <Box className="value">{formData.marital_status}</Box>
+                      </Box>
                     </Box>
                   </Box>
+                </TabPanel>
+                <TabPanel tabindex={tabindex} index={2}>
                   <Box
+                    className="field-wrap"
                     sx={{
                       display: "flex",
-                      alignItems: "center",
-                      marginBottom: "20px",
+                      flexDirection: "row",
+                      alignItems: "flex-start",
+                      gap: "20px",
                     }}
                   >
-                    <Typography
-                      sx={{ flex: "0 0 100%" }}
-                      className="form-label"
-                    >
-                      Preferred movie/TV show(s)
-                    </Typography>
-                    <Box className="value">
-                      {formData.preferred_movies_shows}
+                    <Box
+                      className="left-col image-col"
+                      sx={{ flex: "0 0 25%" }}
+                    ></Box>
+                    <Box className="right-col" sx={{ flex: "0 0 75%" }}>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          marginBottom: "20px",
+                        }}
+                      >
+                        <Typography
+                          sx={{ flex: "0 0 100%" }}
+                          className="form-label"
+                        >
+                          Salutation*
+                        </Typography>
+                        <Box className="value">
+                          {formData.spouse_salutation}
+                        </Box>
+                      </Box>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          marginBottom: "20px",
+                        }}
+                      >
+                        <Typography
+                          sx={{ flex: "0 0 100%" }}
+                          className="form-label"
+                        >
+                          First name*
+                        </Typography>
+
+                        <Box className="value">
+                          {formData.spouse_first_name}
+                        </Box>
+                      </Box>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          marginBottom: "20px",
+                        }}
+                      >
+                        <Typography
+                          sx={{ flex: "0 0 100%" }}
+                          className="form-label"
+                        >
+                          Last Name *
+                        </Typography>
+                        <Box className="value">{formData.spouse_last_name}</Box>
+                      </Box>
                     </Box>
                   </Box>
-                </Box>
+                </TabPanel>
+                <TabPanel tabindex={tabindex} index={3}>
+                  <Box
+                    className="field-wrap"
+                    sx={{
+                      display: "flex",
+                      flexDirection: "row",
+                      alignItems: "flex-start",
+                      gap: "20px",
+                    }}
+                  >
+                    <Box
+                      className="left-col image-col"
+                      sx={{ flex: "0 0 25%" }}
+                    ></Box>
+                    <Box className="right-col" sx={{ flex: "0 0 75%" }}>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          marginBottom: "20px",
+                        }}
+                      >
+                        <Typography
+                          sx={{ flex: "0 0 100%" }}
+                          className="form-label"
+                        >
+                          Hobbies and interests
+                        </Typography>
+                        <Box className="value">
+                          {formData.hobbies_and_interests}
+                        </Box>
+                      </Box>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          marginBottom: "20px",
+                        }}
+                      >
+                        <Typography
+                          sx={{ flex: "0 0 100%" }}
+                          className="form-label"
+                        >
+                          Favourite sport(s)
+                        </Typography>
+
+                        <Box className="value">{formData.favourite_sports}</Box>
+                      </Box>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          marginBottom: "20px",
+                        }}
+                      >
+                        <Typography
+                          sx={{ flex: "0 0 100%" }}
+                          className="form-label"
+                        >
+                          Preferred music genre(s)
+                        </Typography>
+                        <Box className="value">
+                          {formData.preferred_music_genres}
+                        </Box>
+                      </Box>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          marginBottom: "20px",
+                        }}
+                      >
+                        <Typography
+                          sx={{ flex: "0 0 100%" }}
+                          className="form-label"
+                        >
+                          Preferred movie/TV show(s)
+                        </Typography>
+                        <Box className="value">
+                          {formData.preferred_movies_shows}
+                        </Box>
+                      </Box>
+                    </Box>
+                  </Box>
+                </TabPanel>
               </Box>
-            </TabPanel>
+            )}
           </Box>
           <Box
             sx={{

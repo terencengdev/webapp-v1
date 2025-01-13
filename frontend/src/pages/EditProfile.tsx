@@ -23,6 +23,8 @@ import Snackbar from "@mui/material/Snackbar";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import UploadIcon from "@mui/icons-material/Upload";
 import DeleteIcon from "@mui/icons-material/Delete";
+import CircularProgress from "@mui/material/CircularProgress";
+import { grey } from "@mui/material/colors";
 import dayjs from "dayjs";
 
 const theme = createTheme();
@@ -54,6 +56,8 @@ export default function EditProfile() {
   const apiUrl = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
+    setLoading(true);
+
     // Fetch user data for editing (if applicable)
     axios
       .get(apiUrl + "/api/users/" + userid) // Replace 1 with dynamic user ID
@@ -354,612 +358,626 @@ export default function EditProfile() {
                 </Box>
               </Typography>
             </Box>
-            <form onSubmit={handleSubmit(onSubmit)} id="form_edit" noValidate>
-              <TabPanel tabindex={tabindex} index={0}>
-                <Box
-                  className="field-wrap"
-                  sx={{
-                    display: "flex",
-                    flexDirection: "row",
-                    alignItems: "flex-start",
-                    gap: "30px",
-                  }}
-                >
-                  <Box
-                    className="left-col image-col"
-                    sx={{
-                      flex: "0 0 25%",
-                      textAlign: { xs: "left", md: "center" },
-                    }}
-                  >
-                    <Avatar
-                      alt="Profile Image"
-                      src={previewImage ? previewImage : image ? image : ""}
-                      sx={{
-                        width: {
-                          xs: "20vw",
-                          md: "calc(14vw - 20px)",
-                        },
-                        height: {
-                          xs: "20vw",
-                          md: "calc(14vw - 20px)",
-                        },
-                      }}
-                    />
-
-                    <Button
-                      variant="contained"
-                      component="label"
-                      sx={{
-                        marginTop: "20px",
-                        backgroundColor: "#000",
-                        marginBottom: "5%",
-                        width: "auto",
-                      }}
-                    >
-                      <input
-                        type="file"
-                        hidden
-                        accept="image/png, image/jpeg"
-                        onChange={handleFileChange}
-                      />
-                      {image ? (
-                        <DeleteIcon sx={{ marginRight: "10px" }} />
-                      ) : (
-                        <UploadIcon sx={{ marginRight: "10px" }} />
-                      )}
-                      {"Upload"}
-                    </Button>
-                    <Typography variant="body2">
-                      (JPG or PNG format with maximum size of 1 MB)
-                    </Typography>
-                  </Box>
-                  <Box className="right-col" sx={{ flex: "0 0 75%" }}>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        marginBottom: "20px",
-                      }}
-                    >
-                      <Typography
-                        sx={{ flex: "0 0 100%" }}
-                        className="form-label"
-                      >
-                        <strong>Salutation*</strong>
-                      </Typography>
-
-                      <SelectElement
-                        control={control}
-                        required
-                        value="Mr"
-                        name="salutation"
-                        options={[
-                          {
-                            id: "Mr.",
-                            label: "Mr.",
-                          },
-                          {
-                            id: "Ms.",
-                            label: "Ms.",
-                          },
-                          {
-                            id: "Mrs.",
-                            label: "Mrs.",
-                          },
-                        ]}
-                        sx={{
-                          width: "100%",
-                        }}
-                      />
-                    </Box>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        marginBottom: "20px",
-                      }}
-                    >
-                      <Typography
-                        sx={{ flex: "0 0 100%" }}
-                        className="form-label"
-                      >
-                        First name*
-                      </Typography>
-
-                      <TextFieldElement
-                        control={control}
-                        sx={{ flex: "0 0 70%" }}
-                        required
-                        id="first_name"
-                        name="first_name"
-                      />
-                    </Box>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        marginBottom: "20px",
-                      }}
-                    >
-                      <Typography
-                        sx={{ flex: "0 0 100%" }}
-                        className="form-label"
-                      >
-                        Last Name *
-                      </Typography>
-                      <TextFieldElement
-                        control={control}
-                        sx={{ flex: "0 0 70%" }}
-                        required
-                        id="last_name"
-                        type="text"
-                        name="last_name"
-                      />
-                    </Box>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        marginBottom: "20px",
-                      }}
-                    >
-                      <Typography
-                        sx={{ flex: "0 0 100%" }}
-                        className="form-label"
-                      >
-                        Email Address *
-                      </Typography>
-                      <TextFieldElement
-                        control={control}
-                        sx={{ flex: "0 0 70%" }}
-                        required
-                        id="email_address"
-                        type="text"
-                        name="email_address"
-                      />
-                    </Box>
-                  </Box>
-                </Box>
-              </TabPanel>
-              <TabPanel tabindex={tabindex} index={1}>
-                <Box
-                  className="field-wrap"
-                  sx={{
-                    display: "flex",
-                    flexDirection: "row",
-                    alignItems: "flex-start",
-                    gap: "20px",
-                  }}
-                >
-                  <Box
-                    className="left-col image-col"
-                    sx={{ flex: "0 0 25%" }}
-                  ></Box>
-                  <Box className="right-col" sx={{ flex: "0 0 75%" }}>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        marginBottom: "20px",
-                      }}
-                    >
-                      <Typography
-                        sx={{ flex: "0 0 100%" }}
-                        className="form-label"
-                      >
-                        Mobile number*
-                      </Typography>
-
-                      <TextFieldElement
-                        control={control}
-                        sx={{ flex: "0 0 70%" }}
-                        required
-                        id="mobile_number"
-                        name="mobile_number"
-                      />
-                    </Box>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        marginBottom: "20px",
-                      }}
-                    >
-                      <Typography
-                        sx={{ flex: "0 0 100%" }}
-                        className="form-label"
-                      >
-                        Home address*
-                      </Typography>
-                      <TextFieldElement
-                        required
-                        control={control}
-                        sx={{ flex: "0 0 70%" }}
-                        name={"home_address"}
-                        multiline
-                      ></TextFieldElement>
-                    </Box>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        marginBottom: "20px",
-                      }}
-                    >
-                      <Typography
-                        sx={{ flex: "0 0 100%" }}
-                        className="form-label"
-                      >
-                        Country*
-                      </Typography>
-                      <TextFieldElement
-                        control={control}
-                        sx={{ flex: "0 0 70%" }}
-                        required
-                        id="country"
-                        name="country"
-                      />
-                    </Box>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        marginBottom: "20px",
-                      }}
-                    >
-                      <Typography
-                        sx={{ flex: "0 0 100%" }}
-                        className="form-label"
-                      >
-                        Postal code*
-                      </Typography>
-                      <TextFieldElement
-                        control={control}
-                        sx={{ flex: "0 0 70%" }}
-                        required
-                        id="postal_code"
-                        name="postal_code"
-                      />
-                    </Box>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        marginBottom: "20px",
-                      }}
-                    >
-                      <Typography
-                        sx={{ flex: "0 0 100%" }}
-                        className="form-label"
-                      >
-                        Nationality*
-                      </Typography>
-                      <TextFieldElement
-                        control={control}
-                        sx={{ flex: "0 0 70%" }}
-                        required
-                        id="nationality"
-                        name="nationality"
-                      />
-                    </Box>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        marginBottom: "20px",
-                      }}
-                    >
-                      <Typography
-                        sx={{ flex: "0 0 100%" }}
-                        className="form-label"
-                      >
-                        Date of birth
-                      </Typography>
-                      <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DatePickerElement
-                          control={control}
-                          name="date_of_birth"
-                          format="YYYY-MM-DD"
-                          rules={{
-                            required: "Custom required message",
-                            validate: { calculateAge },
-                          }}
-                        />
-                      </LocalizationProvider>
-                    </Box>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        marginBottom: "20px",
-                      }}
-                    >
-                      <Typography
-                        sx={{ flex: "0 0 100%" }}
-                        className="form-label"
-                      >
-                        Gender
-                      </Typography>
-
-                      <SelectElement
-                        control={control}
-                        name="gender"
-                        options={[
-                          {
-                            id: "Male",
-                            label: "Male",
-                          },
-                          {
-                            id: "Female",
-                            label: "Female",
-                          },
-                        ]}
-                        sx={{
-                          width: "100%",
-                        }}
-                      />
-                    </Box>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        marginBottom: "20px",
-                      }}
-                    >
-                      <Typography
-                        sx={{ flex: "0 0 100%" }}
-                        className="form-label"
-                      >
-                        Marital status
-                      </Typography>
-                      <SelectElement
-                        control={control}
-                        name="marital_status"
-                        options={[
-                          {
-                            id: "Single",
-                            label: "Single",
-                          },
-                          {
-                            id: "Married",
-                            label: "Married",
-                          },
-                        ]}
-                        onChange={handleMaritalChange}
-                        sx={{
-                          width: "100%",
-                        }}
-                      />
-                    </Box>
-                  </Box>
-                </Box>
-              </TabPanel>
-              <TabPanel tabindex={tabindex} index={2}>
-                <Box
-                  className="field-wrap"
-                  sx={{
-                    display: "flex",
-                    flexDirection: "row",
-                    alignItems: "flex-start",
-                    gap: "20px",
-                  }}
-                >
-                  <Box
-                    className="left-col image-col"
-                    sx={{ flex: "0 0 25%" }}
-                  ></Box>
-                  <Box className="right-col" sx={{ flex: "0 0 75%" }}>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        marginBottom: "20px",
-                      }}
-                    >
-                      <Typography
-                        sx={{ flex: "0 0 100%" }}
-                        className="form-label"
-                      >
-                        <strong>Salutation*</strong>
-                      </Typography>
-
-                      <SelectElement
-                        control={control}
-                        required
-                        name="spouse_salutation"
-                        options={[
-                          {
-                            id: "Mr.",
-                            label: "Mr.",
-                          },
-                          {
-                            id: "Ms.",
-                            label: "Ms.",
-                          },
-                          {
-                            id: "Mrs.",
-                            label: "Mrs.",
-                          },
-                        ]}
-                        sx={{
-                          width: "100%",
-                        }}
-                      />
-                    </Box>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        marginBottom: "20px",
-                      }}
-                    >
-                      <Typography
-                        sx={{ flex: "0 0 100%" }}
-                        className="form-label"
-                      >
-                        First name*
-                      </Typography>
-
-                      <TextFieldElement
-                        control={control}
-                        sx={{ flex: "0 0 70%" }}
-                        required
-                        id="spouse_first_name"
-                        name="spouse_first_name"
-                      />
-                    </Box>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        marginBottom: "20px",
-                      }}
-                    >
-                      <Typography
-                        sx={{ flex: "0 0 100%" }}
-                        className="form-label"
-                      >
-                        Last Name *
-                      </Typography>
-                      <TextFieldElement
-                        control={control}
-                        sx={{ flex: "0 0 70%" }}
-                        required
-                        id="spouse_last_name"
-                        type="text"
-                        name="spouse_last_name"
-                      />
-                    </Box>
-                  </Box>
-                </Box>
-              </TabPanel>
-              <TabPanel tabindex={tabindex} index={3}>
-                <Box
-                  className="field-wrap"
-                  sx={{
-                    display: "flex",
-                    flexDirection: "row",
-                    alignItems: "flex-start",
-                    gap: "20px",
-                  }}
-                >
-                  <Box
-                    className="left-col image-col"
-                    sx={{ flex: "0 0 25%" }}
-                  ></Box>
-                  <Box className="right-col" sx={{ flex: "0 0 75%" }}>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        marginBottom: "20px",
-                      }}
-                    >
-                      <Typography
-                        sx={{ flex: "0 0 100%" }}
-                        className="form-label"
-                      >
-                        Hobbies and interests
-                      </Typography>
-                      <TextFieldElement
-                        control={control}
-                        sx={{ flex: "0 0 70%" }}
-                        id="hobbies_and_interests"
-                        name="hobbies_and_interests"
-                      />
-                    </Box>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        marginBottom: "20px",
-                      }}
-                    >
-                      <Typography
-                        sx={{ flex: "0 0 100%" }}
-                        className="form-label"
-                      >
-                        Favorite sport(s)
-                      </Typography>
-                      <TextFieldElement
-                        control={control}
-                        sx={{ flex: "0 0 70%" }}
-                        id="favourite_sports"
-                        name="favourite_sports"
-                      />
-                    </Box>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        marginBottom: "20px",
-                      }}
-                    >
-                      <Typography
-                        sx={{ flex: "0 0 100%" }}
-                        className="form-label"
-                      >
-                        Preferred music genre(s)
-                      </Typography>
-                      <TextFieldElement
-                        control={control}
-                        sx={{ flex: "0 0 70%" }}
-                        id="preferred_music_genres"
-                        name="preferred_music_genres"
-                      />
-                    </Box>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        marginBottom: "20px",
-                      }}
-                    >
-                      <Typography
-                        sx={{ flex: "0 0 100%" }}
-                        className="form-label"
-                      >
-                        Preferred movie/TV show(s)
-                      </Typography>
-                      <TextFieldElement
-                        control={control}
-                        sx={{ flex: "0 0 70%" }}
-                        id="preferred_movies_shows"
-                        name="preferred_movies_shows"
-                      />
-                    </Box>
-                  </Box>
-                </Box>
-              </TabPanel>
+            {loading ? (
               <Box
+                className="loading-box"
                 sx={{
                   display: "flex",
                   alignItems: "center",
-                  gap: "30px",
-
-                  padding: "24px",
+                  justifyContent: "center",
+                  minHeight: "50vh",
                 }}
               >
-                <Typography
-                  sx={{ flex: "0 0 25%" }}
-                  className="form-label"
-                ></Typography>
-                <Subcomponent control={control} />
-                <Button
-                  href="/my-profile"
-                  size="medium"
-                  sx={{
-                    backgroundColor: "#ccc",
-                    color: "#000",
-                    marginBottom: "5%",
-                  }}
-                  variant="contained"
-                >
-                  Cancel
-                </Button>
+                <CircularProgress color="inherit" />
               </Box>
-            </form>
+            ) : (
+              <form onSubmit={handleSubmit(onSubmit)} id="form_edit" noValidate>
+                <TabPanel tabindex={tabindex} index={0}>
+                  <Box
+                    className="field-wrap"
+                    sx={{
+                      display: "flex",
+                      flexDirection: "row",
+                      alignItems: "flex-start",
+                      gap: "30px",
+                    }}
+                  >
+                    <Box
+                      className="left-col image-col"
+                      sx={{
+                        flex: "0 0 25%",
+                        textAlign: { xs: "left", md: "center" },
+                      }}
+                    >
+                      <Avatar
+                        alt="Profile Image"
+                        src={previewImage ? previewImage : image ? image : ""}
+                        sx={{
+                          width: {
+                            xs: "20vw",
+                            md: "calc(14vw - 20px)",
+                          },
+                          height: {
+                            xs: "20vw",
+                            md: "calc(14vw - 20px)",
+                          },
+                        }}
+                      />
+
+                      <Button
+                        variant="contained"
+                        component="label"
+                        sx={{
+                          marginTop: "20px",
+                          backgroundColor: "#000",
+                          marginBottom: "5%",
+                          width: "auto",
+                        }}
+                      >
+                        <input
+                          type="file"
+                          hidden
+                          accept="image/png, image/jpeg"
+                          onChange={handleFileChange}
+                        />
+                        {image ? (
+                          <DeleteIcon sx={{ marginRight: "10px" }} />
+                        ) : (
+                          <UploadIcon sx={{ marginRight: "10px" }} />
+                        )}
+                        {"Upload"}
+                      </Button>
+                      <Typography variant="body2">
+                        (JPG or PNG format with maximum size of 1 MB)
+                      </Typography>
+                    </Box>
+                    <Box className="right-col" sx={{ flex: "0 0 75%" }}>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          marginBottom: "20px",
+                        }}
+                      >
+                        <Typography
+                          sx={{ flex: "0 0 100%" }}
+                          className="form-label"
+                        >
+                          <strong>Salutation*</strong>
+                        </Typography>
+
+                        <SelectElement
+                          control={control}
+                          required
+                          value="Mr"
+                          name="salutation"
+                          options={[
+                            {
+                              id: "Mr.",
+                              label: "Mr.",
+                            },
+                            {
+                              id: "Ms.",
+                              label: "Ms.",
+                            },
+                            {
+                              id: "Mrs.",
+                              label: "Mrs.",
+                            },
+                          ]}
+                          sx={{
+                            width: "100%",
+                          }}
+                        />
+                      </Box>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          marginBottom: "20px",
+                        }}
+                      >
+                        <Typography
+                          sx={{ flex: "0 0 100%" }}
+                          className="form-label"
+                        >
+                          First name*
+                        </Typography>
+
+                        <TextFieldElement
+                          control={control}
+                          sx={{ flex: "0 0 70%" }}
+                          required
+                          id="first_name"
+                          name="first_name"
+                        />
+                      </Box>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          marginBottom: "20px",
+                        }}
+                      >
+                        <Typography
+                          sx={{ flex: "0 0 100%" }}
+                          className="form-label"
+                        >
+                          Last Name *
+                        </Typography>
+                        <TextFieldElement
+                          control={control}
+                          sx={{ flex: "0 0 70%" }}
+                          required
+                          id="last_name"
+                          type="text"
+                          name="last_name"
+                        />
+                      </Box>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          marginBottom: "20px",
+                        }}
+                      >
+                        <Typography
+                          sx={{ flex: "0 0 100%" }}
+                          className="form-label"
+                        >
+                          Email Address *
+                        </Typography>
+                        <TextFieldElement
+                          control={control}
+                          sx={{ flex: "0 0 70%" }}
+                          required
+                          id="email_address"
+                          type="text"
+                          name="email_address"
+                        />
+                      </Box>
+                    </Box>
+                  </Box>
+                </TabPanel>
+                <TabPanel tabindex={tabindex} index={1}>
+                  <Box
+                    className="field-wrap"
+                    sx={{
+                      display: "flex",
+                      flexDirection: "row",
+                      alignItems: "flex-start",
+                      gap: "20px",
+                    }}
+                  >
+                    <Box
+                      className="left-col image-col"
+                      sx={{ flex: "0 0 25%" }}
+                    ></Box>
+                    <Box className="right-col" sx={{ flex: "0 0 75%" }}>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          marginBottom: "20px",
+                        }}
+                      >
+                        <Typography
+                          sx={{ flex: "0 0 100%" }}
+                          className="form-label"
+                        >
+                          Mobile number*
+                        </Typography>
+
+                        <TextFieldElement
+                          control={control}
+                          sx={{ flex: "0 0 70%" }}
+                          required
+                          id="mobile_number"
+                          name="mobile_number"
+                        />
+                      </Box>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          marginBottom: "20px",
+                        }}
+                      >
+                        <Typography
+                          sx={{ flex: "0 0 100%" }}
+                          className="form-label"
+                        >
+                          Home address*
+                        </Typography>
+                        <TextFieldElement
+                          required
+                          control={control}
+                          sx={{ flex: "0 0 70%" }}
+                          name={"home_address"}
+                          multiline
+                        ></TextFieldElement>
+                      </Box>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          marginBottom: "20px",
+                        }}
+                      >
+                        <Typography
+                          sx={{ flex: "0 0 100%" }}
+                          className="form-label"
+                        >
+                          Country*
+                        </Typography>
+                        <TextFieldElement
+                          control={control}
+                          sx={{ flex: "0 0 70%" }}
+                          required
+                          id="country"
+                          name="country"
+                        />
+                      </Box>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          marginBottom: "20px",
+                        }}
+                      >
+                        <Typography
+                          sx={{ flex: "0 0 100%" }}
+                          className="form-label"
+                        >
+                          Postal code*
+                        </Typography>
+                        <TextFieldElement
+                          control={control}
+                          sx={{ flex: "0 0 70%" }}
+                          required
+                          id="postal_code"
+                          name="postal_code"
+                        />
+                      </Box>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          marginBottom: "20px",
+                        }}
+                      >
+                        <Typography
+                          sx={{ flex: "0 0 100%" }}
+                          className="form-label"
+                        >
+                          Nationality*
+                        </Typography>
+                        <TextFieldElement
+                          control={control}
+                          sx={{ flex: "0 0 70%" }}
+                          required
+                          id="nationality"
+                          name="nationality"
+                        />
+                      </Box>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          marginBottom: "20px",
+                        }}
+                      >
+                        <Typography
+                          sx={{ flex: "0 0 100%" }}
+                          className="form-label"
+                        >
+                          Date of birth
+                        </Typography>
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                          <DatePickerElement
+                            control={control}
+                            name="date_of_birth"
+                            format="YYYY-MM-DD"
+                            rules={{
+                              required: "Custom required message",
+                              validate: { calculateAge },
+                            }}
+                          />
+                        </LocalizationProvider>
+                      </Box>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          marginBottom: "20px",
+                        }}
+                      >
+                        <Typography
+                          sx={{ flex: "0 0 100%" }}
+                          className="form-label"
+                        >
+                          Gender
+                        </Typography>
+
+                        <SelectElement
+                          control={control}
+                          name="gender"
+                          options={[
+                            {
+                              id: "Male",
+                              label: "Male",
+                            },
+                            {
+                              id: "Female",
+                              label: "Female",
+                            },
+                          ]}
+                          sx={{
+                            width: "100%",
+                          }}
+                        />
+                      </Box>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          marginBottom: "20px",
+                        }}
+                      >
+                        <Typography
+                          sx={{ flex: "0 0 100%" }}
+                          className="form-label"
+                        >
+                          Marital status
+                        </Typography>
+                        <SelectElement
+                          control={control}
+                          name="marital_status"
+                          options={[
+                            {
+                              id: "Single",
+                              label: "Single",
+                            },
+                            {
+                              id: "Married",
+                              label: "Married",
+                            },
+                          ]}
+                          onChange={handleMaritalChange}
+                          sx={{
+                            width: "100%",
+                          }}
+                        />
+                      </Box>
+                    </Box>
+                  </Box>
+                </TabPanel>
+                <TabPanel tabindex={tabindex} index={2}>
+                  <Box
+                    className="field-wrap"
+                    sx={{
+                      display: "flex",
+                      flexDirection: "row",
+                      alignItems: "flex-start",
+                      gap: "20px",
+                    }}
+                  >
+                    <Box
+                      className="left-col image-col"
+                      sx={{ flex: "0 0 25%" }}
+                    ></Box>
+                    <Box className="right-col" sx={{ flex: "0 0 75%" }}>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          marginBottom: "20px",
+                        }}
+                      >
+                        <Typography
+                          sx={{ flex: "0 0 100%" }}
+                          className="form-label"
+                        >
+                          <strong>Salutation*</strong>
+                        </Typography>
+
+                        <SelectElement
+                          control={control}
+                          required
+                          name="spouse_salutation"
+                          options={[
+                            {
+                              id: "Mr.",
+                              label: "Mr.",
+                            },
+                            {
+                              id: "Ms.",
+                              label: "Ms.",
+                            },
+                            {
+                              id: "Mrs.",
+                              label: "Mrs.",
+                            },
+                          ]}
+                          sx={{
+                            width: "100%",
+                          }}
+                        />
+                      </Box>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          marginBottom: "20px",
+                        }}
+                      >
+                        <Typography
+                          sx={{ flex: "0 0 100%" }}
+                          className="form-label"
+                        >
+                          First name*
+                        </Typography>
+
+                        <TextFieldElement
+                          control={control}
+                          sx={{ flex: "0 0 70%" }}
+                          required
+                          id="spouse_first_name"
+                          name="spouse_first_name"
+                        />
+                      </Box>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          marginBottom: "20px",
+                        }}
+                      >
+                        <Typography
+                          sx={{ flex: "0 0 100%" }}
+                          className="form-label"
+                        >
+                          Last Name *
+                        </Typography>
+                        <TextFieldElement
+                          control={control}
+                          sx={{ flex: "0 0 70%" }}
+                          required
+                          id="spouse_last_name"
+                          type="text"
+                          name="spouse_last_name"
+                        />
+                      </Box>
+                    </Box>
+                  </Box>
+                </TabPanel>
+                <TabPanel tabindex={tabindex} index={3}>
+                  <Box
+                    className="field-wrap"
+                    sx={{
+                      display: "flex",
+                      flexDirection: "row",
+                      alignItems: "flex-start",
+                      gap: "20px",
+                    }}
+                  >
+                    <Box
+                      className="left-col image-col"
+                      sx={{ flex: "0 0 25%" }}
+                    ></Box>
+                    <Box className="right-col" sx={{ flex: "0 0 75%" }}>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          marginBottom: "20px",
+                        }}
+                      >
+                        <Typography
+                          sx={{ flex: "0 0 100%" }}
+                          className="form-label"
+                        >
+                          Hobbies and interests
+                        </Typography>
+                        <TextFieldElement
+                          control={control}
+                          sx={{ flex: "0 0 70%" }}
+                          id="hobbies_and_interests"
+                          name="hobbies_and_interests"
+                        />
+                      </Box>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          marginBottom: "20px",
+                        }}
+                      >
+                        <Typography
+                          sx={{ flex: "0 0 100%" }}
+                          className="form-label"
+                        >
+                          Favorite sport(s)
+                        </Typography>
+                        <TextFieldElement
+                          control={control}
+                          sx={{ flex: "0 0 70%" }}
+                          id="favourite_sports"
+                          name="favourite_sports"
+                        />
+                      </Box>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          marginBottom: "20px",
+                        }}
+                      >
+                        <Typography
+                          sx={{ flex: "0 0 100%" }}
+                          className="form-label"
+                        >
+                          Preferred music genre(s)
+                        </Typography>
+                        <TextFieldElement
+                          control={control}
+                          sx={{ flex: "0 0 70%" }}
+                          id="preferred_music_genres"
+                          name="preferred_music_genres"
+                        />
+                      </Box>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          marginBottom: "20px",
+                        }}
+                      >
+                        <Typography
+                          sx={{ flex: "0 0 100%" }}
+                          className="form-label"
+                        >
+                          Preferred movie/TV show(s)
+                        </Typography>
+                        <TextFieldElement
+                          control={control}
+                          sx={{ flex: "0 0 70%" }}
+                          id="preferred_movies_shows"
+                          name="preferred_movies_shows"
+                        />
+                      </Box>
+                    </Box>
+                  </Box>
+                </TabPanel>
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "30px",
+
+                    padding: "24px",
+                  }}
+                >
+                  <Typography
+                    sx={{ flex: "0 0 25%" }}
+                    className="form-label"
+                  ></Typography>
+                  <Subcomponent control={control} />
+                  <Button
+                    href="/my-profile"
+                    size="medium"
+                    sx={{
+                      backgroundColor: "#ccc",
+                      color: "#000",
+                      marginBottom: "5%",
+                    }}
+                    variant="contained"
+                  >
+                    Cancel
+                  </Button>
+                </Box>
+              </form>
+            )}
             <Box
               sx={{
                 display: "flex",

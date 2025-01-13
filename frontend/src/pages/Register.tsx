@@ -38,6 +38,7 @@ export default function Register() {
   const [alert, setAlert] = useState(false);
   const [error_alert, setErrorAlert] = useState(false);
   const [alertContent, setAlertContent] = useState("");
+  const [loading, setLoading] = useState(false);
 
   function Subcomponent({ control }: { control: any }) {
     const user_id = useWatch({
@@ -68,7 +69,7 @@ export default function Register() {
           width: 200,
         }}
         variant="contained"
-        disabled={!user_id || !password || !password_repeat}
+        disabled={loading || !user_id || !password || !password_repeat}
       >
         Register
       </Button>
@@ -88,6 +89,8 @@ export default function Register() {
 
   // Function to handle form submission
   const onSubmit = async (data: any) => {
+    setLoading(true);
+
     let user_id,
       password = "";
     try {
@@ -104,6 +107,8 @@ export default function Register() {
         setErrorAlert(false);
         setAlertContent(response.data.message);
         setAlert(true);
+        setLoading(false);
+
         setTimeout(() => {
           navigate("/");
         }, 1500);
@@ -112,6 +117,8 @@ export default function Register() {
       console.error("Error:", error);
       // // If login failed, display error message
       // setErrorMessage("Your Username and\nPassword are incorrect.");
+      setLoading(false);
+
       setErrorAlert(true);
       if (error instanceof AxiosError && error.response) {
         setAlertContent(

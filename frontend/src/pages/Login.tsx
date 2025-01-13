@@ -37,6 +37,7 @@ export default function Login() {
   const [error_alert, setErrorAlert] = useState(false);
   const [alertContent, setAlertContent] = useState("");
   const [keepMeLoggedIn, setKeepMeLoggedIn] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const { control, handleSubmit } = useForm({
     defaultValues: {
@@ -59,6 +60,8 @@ export default function Login() {
 
   // Function to handle form submission
   const onSubmit = async (data: any) => {
+    setLoading(true);
+
     let user_id,
       password = "";
     try {
@@ -88,12 +91,15 @@ export default function Login() {
         } else {
           setCookie("authToken", response.data.token);
         }
+        setLoading(false);
 
         setTimeout(() => {
           navigate("/home");
         }, 1000);
       }
     } catch (error) {
+      setLoading(false);
+
       console.error("Error:", error);
       // // If login failed, display error message
       setErrorAlert(true);
@@ -130,7 +136,7 @@ export default function Login() {
           width: 200,
         }}
         variant="contained"
-        disabled={!user_id || !password}
+        disabled={loading || !user_id || !password}
       >
         Login
       </Button>

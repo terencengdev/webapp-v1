@@ -16,12 +16,15 @@ import Pagination from "@mui/material/Pagination";
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
+import CircularProgress from "@mui/material/CircularProgress";
 
 export default function Home() {
   const [listdata, SetListData] = useState<any[]>([]);
   const [filteredList, SetFilteredList] = useState<any[]>([]);
 
   const [currentPage, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(false);
+
   const [gender, setGender] = useState("");
   const [nationality, setNationality] = useState("");
 
@@ -65,10 +68,13 @@ export default function Home() {
   ];
 
   useEffect(() => {
+    setLoading(true);
     axios
       .get("https://randomuser.me/api/?results=100&seed=contactlist&exc=login")
       .then((response) => {
         SetListData(response.data.results);
+
+        setLoading(false);
       })
       .catch((error) => {
         console.log(error);
@@ -154,76 +160,90 @@ export default function Home() {
             </FormControl>
           </Box>
           <Box sx={{ flexGrow: 1 }}>
-            <Grid
-              container
-              spacing={{ xs: 2, md: 3 }}
-              columns={{ xs: 2, sm: 4, md: 12 }}
-            >
-              {resultList.map((item, index) => {
-                return (
-                  <Grid key={index} size={{ xs: 2, sm: 2, md: 4 }}>
-                    <Card>
-                      <CardContent className="my-contact-wrap">
-                        <Box className="img-col">
-                          <CardMedia
-                            component="img"
-                            alt="name"
-                            sx={{
-                              height: {
-                                xs: "20vw", // theme.breakpoints.up('xs')
-                                sm: "11vw", // theme.breakpoints.up('sm')
-                                md: "9vw", // theme.breakpoints.up('md')
-                              },
-                            }}
-                            image={item.picture.large}
-                          />
-                        </Box>
-                        <Box className="text-col">
-                          {" "}
-                          <Typography
-                            gutterBottom
-                            variant="body1"
-                            sx={{ fontWeight: 700 }}
-                            component="div"
-                          >
-                            {item.name.first} {item.name.last}
-                          </Typography>
-                          <Link
-                            gutterBottom
-                            component="a"
-                            variant="body2"
-                            className="contact-list-email"
-                            href={`mailto:${item.email}`}
-                            sx={{ display: "block" }}
-                          >
-                            {item.email}
-                          </Link>
-                          <Link
-                            gutterBottom
-                            component="a"
-                            variant="body2"
-                            className="contact-list-phone"
-                            href={`mailto:${item.email}`}
-                            sx={{ display: "block" }}
-                          >
-                            {item.phone}
-                          </Link>
-                          <Typography
-                            className="contact-list-add"
-                            gutterBottom
-                            variant="body2"
-                            component="div"
-                          >
-                            {item.location.street.number}{" "}
-                            {item.location.street.name}
-                          </Typography>
-                        </Box>
-                      </CardContent>
-                    </Card>
-                  </Grid>
-                );
-              })}
-            </Grid>
+            {loading ? (
+              <Box
+                className="loading-box"
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  minHeight: "50vh",
+                }}
+              >
+                <CircularProgress color="inherit" />
+              </Box>
+            ) : (
+              <Grid
+                container
+                spacing={{ xs: 2, md: 3 }}
+                columns={{ xs: 2, sm: 4, md: 12 }}
+              >
+                {resultList.map((item, index) => {
+                  return (
+                    <Grid key={index} size={{ xs: 2, sm: 2, md: 4 }}>
+                      <Card>
+                        <CardContent className="my-contact-wrap">
+                          <Box className="img-col">
+                            <CardMedia
+                              component="img"
+                              alt="name"
+                              sx={{
+                                height: {
+                                  xs: "20vw", // theme.breakpoints.up('xs')
+                                  sm: "11vw", // theme.breakpoints.up('sm')
+                                  md: "9vw", // theme.breakpoints.up('md')
+                                },
+                              }}
+                              image={item.picture.large}
+                            />
+                          </Box>
+                          <Box className="text-col">
+                            {" "}
+                            <Typography
+                              gutterBottom
+                              variant="body1"
+                              sx={{ fontWeight: 700 }}
+                              component="div"
+                            >
+                              {item.name.first} {item.name.last}
+                            </Typography>
+                            <Link
+                              gutterBottom
+                              component="a"
+                              variant="body2"
+                              className="contact-list-email"
+                              href={`mailto:${item.email}`}
+                              sx={{ display: "block" }}
+                            >
+                              {item.email}
+                            </Link>
+                            <Link
+                              gutterBottom
+                              component="a"
+                              variant="body2"
+                              className="contact-list-phone"
+                              href={`mailto:${item.email}`}
+                              sx={{ display: "block" }}
+                            >
+                              {item.phone}
+                            </Link>
+                            <Typography
+                              className="contact-list-add"
+                              gutterBottom
+                              variant="body2"
+                              component="div"
+                            >
+                              {item.location.street.number}{" "}
+                              {item.location.street.name}
+                            </Typography>
+                          </Box>
+                        </CardContent>
+                      </Card>
+                    </Grid>
+                  );
+                })}
+              </Grid>
+            )}
             <Box
               sx={{
                 paddingY: "30px",
