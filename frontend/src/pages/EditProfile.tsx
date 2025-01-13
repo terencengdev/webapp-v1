@@ -45,8 +45,9 @@ export default function EditProfile() {
   const [alertContent, setAlertContent] = useState("");
   const [error_alert, setErrorAlert] = useState(false);
   const [tabindex, setTabIndex] = React.useState(0);
-  const [marital, setMarital] = useState("");
+  const [marital, setMarital] = useState("Single");
   const [image, setImage] = useState("");
+  const [loading, setLoading] = useState(false);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
 
   const userid = localStorage.getItem("userid");
@@ -57,6 +58,7 @@ export default function EditProfile() {
     axios
       .get(apiUrl + "/api/users/" + userid) // Replace 1 with dynamic user ID
       .then((res) => {
+        console.log(res);
         setImage(res.data.profile_image);
         setValue("salutation", res.data.salutation);
         setValue("first_name", res.data.first_name);
@@ -67,7 +69,11 @@ export default function EditProfile() {
         setValue("country", res.data.country);
         setValue("postal_code", res.data.postal_code);
         setValue("nationality", res.data.nationality);
-        setValue("marital_status", res.data.marital_status);
+        if ((res.data.marital_status! = "")) {
+          setValue("marital_status", res.data.marital_status);
+          setMarital(res.data.marital_status);
+        }
+
         setValue("date_of_birth", res.data.date_of_birth);
         setValue("gender", res.data.gender);
         setValue("spouse_salutation", res.data.spouse_salutation);
@@ -77,6 +83,8 @@ export default function EditProfile() {
         setValue("favourite_sports", res.data.favourite_sports);
         setValue("preferred_music_genres", res.data.preferred_music_genres);
         setValue("preferred_movies_shows", res.data.preferred_movies_shows);
+
+        setLoading(false);
       })
       .catch((err) => console.error(err));
   }, []);
@@ -111,7 +119,7 @@ export default function EditProfile() {
           width: 200,
         }}
         variant="contained"
-        disabled={!all_valid}
+        disabled={loading || !all_valid}
       >
         Save & Update
       </Button>
@@ -172,6 +180,7 @@ export default function EditProfile() {
   // Function to handle form submission
   const onSubmit = async (data: any) => {
     try {
+      setLoading(true);
       // Send login request to server
       const formData = new FormData();
 
@@ -214,8 +223,10 @@ export default function EditProfile() {
         setErrorAlert(false);
         setAlertContent(response.data.message);
         setAlert(true);
+        setLoading(false);
       }
     } catch (error) {
+      setLoading(false);
       console.error("Error:", error);
       setErrorAlert(true);
       if (error instanceof AxiosError && error.response) {
@@ -823,7 +834,6 @@ export default function EditProfile() {
                   </Box>
                 </Box>
               </TabPanel>
-
               <TabPanel tabindex={tabindex} index={3}>
                 <Box
                   className="field-wrap"

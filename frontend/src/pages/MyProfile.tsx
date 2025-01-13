@@ -156,12 +156,13 @@ export default function MyProfile() {
               sx={{ alignItems: "flex-start", borderTop: "1px solid #ccc" }}
               label="Additional Details"
             />
-            {formData.marital_status != "Single" && (
-              <Tab
-                sx={{ alignItems: "flex-start", borderTop: "1px solid #ccc" }}
-                label="Spouse Details"
-              />
-            )}
+            {formData.marital_status != "" &&
+              formData.marital_status != "Single" && (
+                <Tab
+                  sx={{ alignItems: "flex-start", borderTop: "1px solid #ccc" }}
+                  label="Spouse Details"
+                />
+              )}
             <Tab
               sx={{ alignItems: "flex-start", borderTop: "1px solid #ccc" }}
               label="Personal Preferences"
