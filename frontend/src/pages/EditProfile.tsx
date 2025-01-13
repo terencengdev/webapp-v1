@@ -57,7 +57,6 @@ export default function EditProfile() {
     axios
       .get(apiUrl + "/api/users/" + userid) // Replace 1 with dynamic user ID
       .then((res) => {
-        console.log(res);
         setImage(res.data.profile_image);
         setValue("salutation", res.data.salutation);
         setValue("first_name", res.data.first_name);
@@ -101,8 +100,7 @@ export default function EditProfile() {
     let all_valid = required.every(
       (element) => element != "" && element !== undefined
     );
-    console.log(required);
-    console.log(all_valid);
+
     return (
       <Button
         type="submit"
@@ -177,8 +175,6 @@ export default function EditProfile() {
       // Send login request to server
       const formData = new FormData();
 
-      console.log(data);
-
       formData.append("salutation", data.salutation);
       formData.append("first_name", data.first_name);
       formData.append("last_name", data.last_name);
@@ -233,7 +229,6 @@ export default function EditProfile() {
   };
 
   const handleMaritalChange = (event: any) => {
-    console.log(event);
     setMarital(event);
   };
 
@@ -243,7 +238,6 @@ export default function EditProfile() {
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
-      console.log(event);
       const file = event.target.files[0];
       setValue("profile_image", file);
       setPreviewImage(URL.createObjectURL(file)); // Preview image
