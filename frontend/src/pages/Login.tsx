@@ -154,7 +154,7 @@ export default function Login() {
         <Typography
           className="main-title"
           variant="h1"
-          sx={{ fontWeight: 300 }}
+          sx={{ fontWeight: 300, textAlign: "center" }}
           gutterBottom
         >
           Welcome to <strong> myApp</strong>

@@ -1,3 +1,6 @@
+* {
+  transition: all ease .2s;
+}
 html {
   height: 100%;
 }
@@ -27,7 +30,7 @@ h1.main-title:after {
     background-color: #000;
 }
 .main-container {
-  padding-top: calc(5% + 50px);
+  padding-top: calc(7% + 50px);
 }
 .main-l-title {
   display: flex;
@@ -82,6 +85,10 @@ h1.main-title:after {
 }
 
 @media (max-width:767px) {
+  
+  .main-container {
+    padding-top: calc(15% + 50px);
+  }
   .MuiContainer-root .MuiTypography-root.MuiTypography-body1 {
     font-size:0.875rem
   }

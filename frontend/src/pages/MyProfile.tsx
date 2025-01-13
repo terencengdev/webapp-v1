@@ -114,7 +114,6 @@ export default function MyProfile() {
               md: "row",
             },
             justifyContent: "center",
-            minHeight: "100vh",
           }}
         >
           <Tabs
@@ -572,7 +571,7 @@ export default function MyProfile() {
           <Box
             sx={{
               flex: { xs: "0 0 30px", md: "1" },
-              order: { xs: "1", md: "2" },
+              order: { xs: "0", md: "2" },
               textAlign: { xs: "right" },
             }}
           >
