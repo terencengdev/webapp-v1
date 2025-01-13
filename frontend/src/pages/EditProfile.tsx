@@ -97,7 +97,9 @@ export default function EditProfile() {
       ],
     });
 
-    let all_valid = required.every((element) => element != "");
+    let all_valid = required.every(
+      (element) => element != "" || element !== undefined
+    );
     console.log(required);
     console.log(all_valid);
     return (
