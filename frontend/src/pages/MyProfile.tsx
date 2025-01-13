@@ -113,7 +113,10 @@ export default function MyProfile() {
         <Box
           sx={{
             display: "flex",
-            gap: "30px",
+            gap: {
+              xs: "20px",
+              md: "30px",
+            },
             flexDirection: {
               xs: "column",
               md: "row",

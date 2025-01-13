@@ -275,7 +275,10 @@ export default function EditProfile() {
         <Box
           sx={{
             display: "flex",
-            gap: "20px",
+            gap: {
+              xs: "20px",
+              md: "30px",
+            },
             flexDirection: {
               xs: "column",
               md: "row",
