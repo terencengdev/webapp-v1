@@ -7,5 +7,5 @@
 - React Hook Form with custom validation
 - Material UI
 
-Version 1
+Version 1\
 Made with ❤️ by Terenceng
